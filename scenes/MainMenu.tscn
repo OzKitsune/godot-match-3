@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dwmh4oc83h18c"]
+
+[ext_resource type="Script" uid="uid://hs6n2lddadr5" path="res://scenes/MainMenu.cs" id="1_yqorp"]
+[ext_resource type="PackedScene" uid="uid://mslfp4cpy1yq" path="res://scenes/Game.tscn" id="2_0ykhv"]
+
+[node name="MainMenu" type="Control" unique_id=1155901848 node_paths=PackedStringArray("_playButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yqorp")
+_playButton = NodePath("CenterContainer/PlayButton")
+_gameScene = ExtResource("2_0ykhv")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1851418898]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayButton" type="Button" parent="CenterContainer" unique_id=249378711]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Play"
