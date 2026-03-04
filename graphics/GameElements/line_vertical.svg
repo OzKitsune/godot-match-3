@@ -1,7 +1,52 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg fill="#DFDFDF" width="800px" height="800px" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <path d="M100.218 80.292c-2.205 0-2.746-1.292-1.214-2.883L128 47.313l29.24 30.11c1.538 1.585 1 2.87-1.209 2.87h-19.239l.636 95.811h18.596c2.21 0 2.746 1.28 1.201 2.854L128 208.746l-28.982-29.773c-1.542-1.584-1.004-2.869 1.2-2.869h19.54V80.292h-19.54z" fill-rule="evenodd"/> </g>
-</svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#dfdfdf"
+   width="480"
+   height="480"
+   viewBox="0 0 153.6 153.6"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="line_vertical.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.45875"
+     inkscape:cx="400"
+     inkscape:cy="235.47558"
+     inkscape:window-width="3440"
+     inkscape:window-height="1369"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     id="SVGRepo_bgCarrier"
+     stroke-width="0" />
+  <g
+     id="SVGRepo_tracerCarrier"
+     stroke-linecap="round"
+     stroke-linejoin="round" />
+  <g
+     id="SVGRepo_iconCarrier"
+     transform="matrix(0.96026646,0,0,0.95147832,-46.233834,-45.017294)">
+    <path
+       d="m 100.218,80.292 c -2.205,0 -2.746,-1.292 -1.214,-2.883 L 128,47.313 l 29.24,30.11 c 1.538,1.585 1,2.87 -1.209,2.87 h -19.239 l 0.636,95.811 h 18.596 c 2.21,0 2.746,1.28 1.201,2.854 L 128,208.746 99.018,178.973 c -1.542,-1.584 -1.004,-2.869 1.2,-2.869 h 19.54 V 80.292 Z"
+       fill-rule="evenodd"
+       id="path1" />
+  </g>
+</svg>
