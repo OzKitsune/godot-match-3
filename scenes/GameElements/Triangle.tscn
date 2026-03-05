@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dkpjs01p78i8w"]
+
+[ext_resource type="Texture2D" uid="uid://bhg6ynjgs8cpi" path="res://graphics/GameElements/triangle.svg" id="1_8gqo1"]
+[ext_resource type="Script" uid="uid://c28wc26oxk71c" path="res://source/GameElements/Triangle.cs" id="2_8gqo1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gfvdh"]
+size = Vector2(48, 48)
+
+[node name="Triangle" type="Sprite2D" unique_id=1776920268 node_paths=PackedStringArray("_area")]
+modulate = Color(0, 0.6392157, 0.76862746, 1)
+texture = ExtResource("1_8gqo1")
+script = ExtResource("2_8gqo1")
+_area = NodePath("Area2D")
+Color = Color(0, 0.6392157, 0.76862746, 1)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2113062535]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1987280233]
+shape = SubResource("RectangleShape2D_gfvdh")

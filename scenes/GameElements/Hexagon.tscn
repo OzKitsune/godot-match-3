@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://rt1cml7o8d3m"]
+
+[ext_resource type="Texture2D" uid="uid://dtm2fbwh6m6vm" path="res://graphics/GameElements/hexagon.svg" id="1_4ybcg"]
+[ext_resource type="Script" uid="uid://dqpn0amalemit" path="res://source/GameElements/Hexagon.cs" id="2_4ybcg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gfvdh"]
+size = Vector2(48, 48)
+
+[node name="Hexagon" type="Sprite2D" unique_id=1776920268 node_paths=PackedStringArray("_area")]
+modulate = Color(0.9764706, 0.31764707, 0.015686275, 1)
+texture = ExtResource("1_4ybcg")
+script = ExtResource("2_4ybcg")
+_area = NodePath("Area2D")
+Color = Color(0.9764706, 0.31764707, 0.015686275, 1)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2113062535]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1987280233]
+shape = SubResource("RectangleShape2D_gfvdh")

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bmgrqe1vdp3o0"]
+
+[ext_resource type="Texture2D" uid="uid://cg7bpbslsoals" path="res://graphics/GameElements/circle.svg" id="1_t25cl"]
+[ext_resource type="Script" uid="uid://cajmmp8wnjkc3" path="res://source/GameElements/Circle.cs" id="2_t25cl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gfvdh"]
+size = Vector2(48, 48)
+
+[node name="Circle" type="Sprite2D" unique_id=1776920268 node_paths=PackedStringArray("_area")]
+modulate = Color(0.92941177, 0.8784314, 0.7176471, 1)
+texture = ExtResource("1_t25cl")
+script = ExtResource("2_t25cl")
+_area = NodePath("Area2D")
+Color = Color(0.92941177, 0.8784314, 0.7176471, 1)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2113062535]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1987280233]
+shape = SubResource("RectangleShape2D_gfvdh")
