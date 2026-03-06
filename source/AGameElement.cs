@@ -33,12 +33,16 @@ public abstract partial class AGameElement : Sprite2D
     /// </summary>
     public Vector2I BoardPosition { get; set; }
 
+    public Type Type { get; protected set; }
+
     public override void _Ready()
     {
         if (Engine.IsEditorHint())
         {
             return;
         }
+
+        //Type = GetType();
 
         _area.MouseEntered += OnAreaMouseEntered;
         _area.MouseExited += OnAreaMouseExited;
@@ -73,12 +77,12 @@ public abstract partial class AGameElement : Sprite2D
         }
     }
 
-    public void Select()
+    public virtual void Select()
     {
         _scaleTweenLoop.Play();
     }
 
-    public void Deselect()
+    public virtual void Deselect()
     {
         _scaleTweenLoop.Stop();
 
@@ -86,7 +90,7 @@ public abstract partial class AGameElement : Sprite2D
         tween.TweenProperty(this, "scale", Vector2.One, 0.1);
     }
 
-    public async void Destroy()
+    public virtual async void Destroy()
     {
         var tween = CreateTween();
         tween.TweenProperty(this, "scale", new Vector2(1.3f, 1.3f), 0.2).SetTrans(Tween.TransitionType.Bounce);
@@ -94,14 +98,4 @@ public abstract partial class AGameElement : Sprite2D
         await ToSignal(tween, Tween.SignalName.Finished);
         QueueFree();
     }
-
-    //public static AGameElement CreateRandomElement()
-    //{
-    //    var element_scene = _elementScenes[GD.RandRange(0, _elementScenes.Length - 1)];
-    //    return element_scene.Instantiate<SimpleGameElement>();
-    //}
-
-    //public static AGameElement CreateElement() 
-    //{
-    //}
 }
