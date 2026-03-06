@@ -74,7 +74,7 @@ public partial class Board : Node2D
 
         var borderColor = new Color(0, 0, 0, 0.5f);
 
-        DrawRect(new Rect2(new Vector2(startPoint, startPoint), BoardSizePixels), color, true, 4);
+        DrawRect(new Rect2(new Vector2(startPoint, startPoint), BoardSizePixels), color, true);
         DrawRect(new Rect2(new Vector2(startPoint, startPoint), BoardSizePixels), borderColor, false, 4);
     }
 
@@ -149,8 +149,6 @@ public partial class Board : Node2D
             var bonus = bonusInfo.CreateBonus();
             AddElement(bonus, bonusInfo.Position.X, bonusInfo.Position.Y);
         }
-
-        Fill();
 
         return true;
     }
@@ -664,6 +662,7 @@ public partial class Board : Node2D
         if (_activeAnimations == 0)
         {
             EmitSignal(SignalName.AnimationFinished);
+            CallDeferred(nameof(Fill));
         }
     }
 }
