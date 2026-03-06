@@ -596,7 +596,9 @@ public partial class Board : Node2D
 
     private async void OnDestroyerDestroyElementAsync(AGameElement gameElement)
     {
-        int score = await DestroyElement(gameElement);
+        var task = DestroyElement(gameElement);
+        AddAnimationTask(task);
+        int score = await task;
         _game.AddScore(score);
     }
 
