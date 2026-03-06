@@ -1,3 +1,113 @@
 [gd_scene format=3 uid="uid://mslfp4cpy1yq"]
 
-[node name="Game" type="Node2D" unique_id=936014055]
+[ext_resource type="Script" uid="uid://kfd5bu1w6ch1" path="res://source/Game.cs" id="1_ibkli"]
+[ext_resource type="Script" uid="uid://cib55arv3fvyg" path="res://source/UI/ScoreLabel.cs" id="2_cpr0p"]
+[ext_resource type="Script" uid="uid://de6aautriowqq" path="res://source/UI/TimerLabel.cs" id="2_qbsmt"]
+[ext_resource type="Script" uid="uid://yq0rf1wdqhmn" path="res://source/Board.cs" id="2_s0nni"]
+[ext_resource type="PackedScene" uid="uid://bxmpngkph31cf" path="res://scenes/GameElements/Rhomb.tscn" id="3_aug50"]
+[ext_resource type="Script" uid="uid://05hxtexj1n6k" path="res://source/UI/OpenSceneButton.cs" id="4_78awf"]
+[ext_resource type="PackedScene" uid="uid://dkpjs01p78i8w" path="res://scenes/GameElements/Triangle.tscn" id="4_kiw3p"]
+[ext_resource type="PackedScene" uid="uid://bmgrqe1vdp3o0" path="res://scenes/GameElements/Circle.tscn" id="5_qy1jj"]
+[ext_resource type="PackedScene" uid="uid://h8ws3uif8nv6" path="res://scenes/GameElements/Diamond.tscn" id="6_3xj3m"]
+[ext_resource type="PackedScene" uid="uid://rt1cml7o8d3m" path="res://scenes/GameElements/Hexagon.tscn" id="7_mcffj"]
+
+[node name="Game" type="Node2D" unique_id=936014055 node_paths=PackedStringArray("_board", "_timer", "_scoreLabel", "_gameOverScreen")]
+script = ExtResource("1_ibkli")
+_board = NodePath("Board")
+_timer = NodePath("Timer")
+_scoreLabel = NodePath("UI/MarginContainer/Control/VBoxContainer/ScoreLabel")
+_gameOverScreen = NodePath("UI/GameOverScreen")
+
+[node name="Board" type="Node2D" parent="." unique_id=1599399394 node_paths=PackedStringArray("_game")]
+position = Vector2(352, 140)
+script = ExtResource("2_s0nni")
+_game = NodePath("..")
+_elementScenes = Array[PackedScene]([ExtResource("3_aug50"), ExtResource("4_kiw3p"), ExtResource("5_qy1jj"), ExtResource("6_3xj3m"), ExtResource("7_mcffj")])
+
+[node name="Timer" type="Timer" parent="." unique_id=1278745409]
+one_shot = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1950963859]
+
+[node name="GameOverScreen" type="Control" parent="UI" unique_id=1900413432]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/GameOverScreen" unique_id=970353125]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2509804, 0.2509804, 0.2509804, 0.49803922)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/GameOverScreen" unique_id=1075570866]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UI/GameOverScreen/VBoxContainer" unique_id=1267300844]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="ReturnToMenuButton" type="Button" parent="UI/GameOverScreen/VBoxContainer" unique_id=1729891]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Ok"
+script = ExtResource("4_78awf")
+_sceneToLoad = "uid://dwmh4oc83h18c"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI" unique_id=1306782917]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Control" type="Control" parent="UI/MarginContainer" unique_id=218843434]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer/Control" unique_id=1261274480]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="ScoreLabel" type="Label" parent="UI/MarginContainer/Control/VBoxContainer" unique_id=1088943940]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "[Очки]"
+horizontal_alignment = 1
+script = ExtResource("2_cpr0p")
+
+[node name="TimerLabel" type="Label" parent="UI/MarginContainer/Control/VBoxContainer" unique_id=1493830457 node_paths=PackedStringArray("_timer")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "[Время в секундах]"
+horizontal_alignment = 1
+script = ExtResource("2_qbsmt")
+_timer = NodePath("../../../../../Timer")
