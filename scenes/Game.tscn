@@ -99,6 +99,8 @@ grow_horizontal = 2
 
 [node name="ScoreLabel" type="Label" parent="UI/MarginContainer/Control/VBoxContainer" unique_id=1088943940]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.49803922)
+theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 24
 text = "[Очки]"
 horizontal_alignment = 1
@@ -106,6 +108,8 @@ script = ExtResource("2_cpr0p")
 
 [node name="TimerLabel" type="Label" parent="UI/MarginContainer/Control/VBoxContainer" unique_id=1493830457 node_paths=PackedStringArray("_timer")]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.49803922)
+theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 24
 text = "[Время в секундах]"
 horizontal_alignment = 1
