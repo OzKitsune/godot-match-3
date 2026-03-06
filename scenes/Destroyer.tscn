@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://il8ip8vu1g2t"]
 
-[ext_resource type="Texture2D" uid="uid://frcu6weore0j" path="res://graphics/bullet-bulletpoint.svg" id="1_tt3lp"]
+[ext_resource type="Texture2D" uid="uid://frcu6weore0j" path="res://graphics/destroyer.svg" id="1_tt3lp"]
 [ext_resource type="Script" uid="uid://b570tcjy80v0r" path="res://source/Destroyer.cs" id="2_tt3lp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt3lp"]
