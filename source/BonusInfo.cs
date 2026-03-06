@@ -1,16 +1,25 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Security.AccessControl;
 
 public partial class BonusInfo : RefCounted
 {
-    public Type ParentType { get; }
+    public Type SourceType { get; }
     public Type BonusType { get; }
     public Color Color { get; }
     public Vector2I Position { get; }
 
-    public BonusInfo(Type parentType, Type bonusType, Color color, Vector2I position) 
+    private static readonly Dictionary<Type, Func<Type, Color, BonusGameElement>> _factories = new()
     {
-        ParentType = parentType;
+        [typeof(Bomb)] = (sourceType, color) => Bomb.Create(sourceType, color),
+        [typeof(LineHorizontal)] = (sourceType, color) => LineHorizontal.Create(sourceType, color),
+        [typeof(LineVertical)] = (sourceType, color) => LineVertical.Create(sourceType, color)
+    };
+
+    public BonusInfo(Type sourceType, Type bonusType, Color color, Vector2I position) 
+    {
+        SourceType = sourceType;
         BonusType = bonusType;
         Color = color;
         Position = position;
@@ -18,17 +27,11 @@ public partial class BonusInfo : RefCounted
 
     public BonusGameElement CreateBonus() 
     {
-        if (BonusType == typeof(Bomb))
+        if (_factories.ContainsKey(BonusType))
         {
-            return Bomb.Create(ParentType, Color);
+            return _factories[BonusType](SourceType, Color);
         }
-        else if (BonusType == typeof(LineHorizontal)) 
-        {
-            return LineHorizontal.Create(ParentType, Color);
-        }
-        else
-        {
-            return LineVertical.Create(ParentType, Color);
-        }
+
+        throw new InvalidOperationException($"Незарегистрированный тип бонуса: {BonusType}");
     }
 }
