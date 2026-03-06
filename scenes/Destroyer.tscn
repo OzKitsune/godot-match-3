@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://il8ip8vu1g2t"]
+
+[ext_resource type="Texture2D" uid="uid://frcu6weore0j" path="res://graphics/bullet-bulletpoint.svg" id="1_tt3lp"]
+[ext_resource type="Script" uid="uid://b570tcjy80v0r" path="res://source/Destroyer.cs" id="2_tt3lp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tt3lp"]
+size = Vector2(40, 40)
+
+[node name="Destroyer" type="Sprite2D" unique_id=1754675109 node_paths=PackedStringArray("_area")]
+modulate = Color(0.16924527, 0.1692453, 0.16924527, 1)
+z_index = 1
+texture = ExtResource("1_tt3lp")
+script = ExtResource("2_tt3lp")
+_area = NodePath("Area2D")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=593205289]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1457495267]
+shape = SubResource("RectangleShape2D_tt3lp")
