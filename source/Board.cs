@@ -1,5 +1,4 @@
 using Godot;
-using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +30,8 @@ public partial class Board : Node2D
     private AGameElement _selectedElement;
 
     private bool _isItFilled = false;
+
+    private int _activeAnimations = 0;
 
     public override void _EnterTree()
     {
@@ -84,17 +85,15 @@ public partial class Board : Node2D
 
         _isItFilled = true;
 
-        EmitSignal(SignalName.AnimationStarted);
-
         while (IsEmptyCells())
         {
             var tweens = MoveElementsDown();
             tweens.AddRange(AddElementsToTop());
 
-            await WaitForTweens(tweens);
+            var task = WaitForTweens(tweens);
+            AddAnimationTask(task);
+            await task;
         }
-
-        EmitSignal(SignalName.AnimationFinished);
 
         _isItFilled = false;
 
@@ -109,7 +108,6 @@ public partial class Board : Node2D
         {
             return false;
         }
-
 
         foreach (var match in matches)
         {
@@ -164,7 +162,8 @@ public partial class Board : Node2D
                         }
 
                         var type = _elements[points[0].X, points[0].Y].Type;
-                        var match = new MatchLine(type, Direction.Horizontal, points.ToArray());
+                        var color = _elements[points[0].X, points[0].Y].Color;
+                        var match = new MatchLine(type, color, Direction.Horizontal, points.ToArray());
                         matches.Add(match);
                     }
                     matchLength = 1;
@@ -194,7 +193,8 @@ public partial class Board : Node2D
                         }
 
                         var type = _elements[points[0].X, points[0].Y].Type;
-                        var match = new MatchLine(type, Direction.Vertical, points.ToArray());
+                        var color = _elements[points[0].X, points[0].Y].Color;
+                        var match = new MatchLine(type, color, Direction.Vertical, points.ToArray());
                         matches.Add(match);
                     }
                     matchLength = 1;
@@ -214,20 +214,12 @@ public partial class Board : Node2D
 
         foreach (var intersection in intersections)
         {
-            foreach (var movedElement in movedElements)
+            if (!bonusPositions.Contains(intersection.Key))
             {
-                // Если точка пересечения в этом элементе, который переместил игрок...
-                if (movedElement.BoardPosition == intersection)
-                {
-                    if (!bonusPositions.Contains(movedElement.BoardPosition))
-                    {
-                        // ...создаём бомбу.
-                        var bomb = Bomb.Create(movedElement);
-                        AddElement(bomb, movedElement.BoardPosition.X, movedElement.BoardPosition.Y);
+                var bomb = Bomb.Create(intersection.Value.Type, intersection.Value.Color);
+                AddElement(bomb, intersection.Key.X, intersection.Key.Y);
 
-                        bonusPositions.Add(movedElement.BoardPosition);
-                    }
-                }
+                bonusPositions.Add(intersection.Key);
             }
         }
 
@@ -281,12 +273,12 @@ public partial class Board : Node2D
         }
     }
 
-    private List<Vector2I> FindIntersections(List<MatchLine> matches) 
+    private Dictionary<Vector2I, MatchLine> FindIntersections(List<MatchLine> matches) 
     {
         var horizontalLines = matches.Where(m => m.Direction == Direction.Horizontal).ToList();
         var verticalLines = matches.Where(m => m.Direction == Direction.Vertical).ToList();
 
-        var intersections = new List<Vector2I>();
+        var intersections = new Dictionary<Vector2I, MatchLine>();
 
         foreach (var hline in horizontalLines) 
         {
@@ -296,7 +288,7 @@ public partial class Board : Node2D
                 {
                     if (vline.Points.Contains(p)) 
                     {
-                        intersections.Add(p);
+                        intersections.Add(p, hline);
                         break;
                     }
                 }
@@ -304,76 +296,6 @@ public partial class Board : Node2D
         }
 
         return intersections;
-    }
-
-    private async Task<int> ActivateBombBonus(Bomb bomb)
-    {
-        bomb.Activate();
-
-        // Ожидание 250 мс по условию ТЗ.
-        await WaitForSignal(GetTree().CreateTimer(EXPLOSION_TIME), "timeout");
-
-        int score = 0;
-
-        var explosionArea = bomb.ExplosionArea;
-
-        foreach (var point in explosionArea)
-        {
-            if (IsPointInsideBoard(point))
-            {
-                score += await DestroyElement(_elements[point.X, point.Y]);
-            }
-        }
-
-        return score;
-    }
-
-    private async Task<int> ActivateLineBonus(BonusGameElement line)
-    {
-        line.Activate();
-
-        var destroyer_scene = GD.Load<PackedScene>("res://scenes/Destroyer.tscn");
-
-        var destroyer1 = destroyer_scene.Instantiate<Destroyer>();
-        AddChild(destroyer1);
-
-        var destroyer2 = destroyer_scene.Instantiate<Destroyer>();
-        AddChild(destroyer2);
-
-        destroyer1.DestroyElement += OnDestroyerDestroyElementAsync;
-        destroyer2.DestroyElement += OnDestroyerDestroyElementAsync;
-
-        Vector2 direction1, direction2;
-
-        if (line is LineHorizontal)
-        {
-            direction1 = Vector2.Left;
-            direction2 = Vector2.Right;
-        }
-        else
-        {
-            direction1 = Vector2.Up;
-            direction2 = Vector2.Down;
-        }
-
-        destroyer1.Launch(line.Position, direction1, BoardSizePixels);
-        destroyer2.Launch(line.Position, direction2, BoardSizePixels);
-
-        await Task.WhenAll(
-            WaitForSignal(destroyer1, Destroyer.SignalName.Done),
-            WaitForSignal(destroyer2, Destroyer.SignalName.Done)
-            );
-
-        destroyer1.DestroyElement -= OnDestroyerDestroyElementAsync;
-        destroyer2.DestroyElement -= OnDestroyerDestroyElementAsync;
-
-        return 0;
-    }
-
-    private async void OnDestroyerDestroyElementAsync(AGameElement gameElement)
-    {
-        int score = await DestroyElement(gameElement);
-        _game.AddScore(score);
     }
 
     private Vector2 GetCellPosition(int x, int y)
@@ -399,7 +321,7 @@ public partial class Board : Node2D
         return p.X >= 0 && p.X < _boardSize.X && p.Y >= 0 && p.Y < _boardSize.Y;
     }
 
-    private async void SwapElements(AGameElement e1, AGameElement e2, bool checkMatches = true)
+    private async Task SwapElements(AGameElement e1, AGameElement e2, bool checkMatches = true)
     {
         var path1 = new Vector2[] 
         {
@@ -430,18 +352,16 @@ public partial class Board : Node2D
         e1.BoardPosition = e2.BoardPosition;
         e2.BoardPosition = bp1;
 
-        EmitSignal(SignalName.AnimationStarted);
-
-        await WaitForTweens([t1, t2]);
-
-        EmitSignal(SignalName.AnimationFinished);
+        var task = WaitForTweens([t1, t2]);
+        AddAnimationTask(task);
+        await task;
 
         if (checkMatches)
         {
             var isMatches = await RemoveMatches(e1, e2);
             if (!isMatches) 
             {
-                SwapElements(e1, e2, false);
+                await SwapElements(e1, e2, false);
             }
         }
     }
@@ -548,23 +468,23 @@ public partial class Board : Node2D
             return 0;
         }
 
-        int score = 0;
+        int score = element.Score;
+
+        _elements[element.BoardPosition.X, element.BoardPosition.Y] = null;
+        element.Click -= OnElementSelected;
+        element.Destroy();
 
         if (element is Bomb bomb && !bomb.IsActivated)
         {
-            score = await ActivateBombBonus(bomb);
+            var task = ActivateBombBonus(bomb);
+            AddAnimationTask(task);
+            score += await task;
         }
         else if ((element is LineHorizontal || element is LineVertical) && !(element as BonusGameElement).IsActivated)
         {
-            score = await ActivateLineBonus(element as BonusGameElement);
-        }
-        else
-        {
-            score = element.Score;
-
-            _elements[element.BoardPosition.X, element.BoardPosition.Y] = null;
-            element.Click -= OnElementSelected;
-            element.Destroy();
+            var task = ActivateLineBonus(element as BonusGameElement);
+            AddAnimationTask(task);
+            score += await task;
         }
 
         return score;
@@ -590,12 +510,83 @@ public partial class Board : Node2D
         {
             if (IsElementsAreNeighbors(_selectedElement, e))
             {
-                SwapElements(_selectedElement, e);
+                var task = SwapElements(_selectedElement, e);
+                AddAnimationTask(task);
             }
 
             _selectedElement.Deselect();
             _selectedElement = null;
         }
+    }
+
+    private async Task<int> ActivateBombBonus(Bomb bomb)
+    {
+        bomb.Activate();
+
+        // Ожидание 250 мс по условию ТЗ.
+        await WaitForSignal(GetTree().CreateTimer(EXPLOSION_TIME), "timeout");
+
+        int score = 0;
+
+        var explosionArea = bomb.ExplosionArea;
+
+        foreach (var point in explosionArea)
+        {
+            if (IsPointInsideBoard(point))
+            {
+                score += await DestroyElement(_elements[point.X, point.Y]);
+            }
+        }
+
+        return score;
+    }
+
+    private async Task<int> ActivateLineBonus(BonusGameElement line)
+    {
+        line.Activate();
+
+        var destroyer_scene = GD.Load<PackedScene>("res://scenes/Destroyer.tscn");
+
+        var destroyer1 = destroyer_scene.Instantiate<Destroyer>();
+        AddChild(destroyer1);
+
+        var destroyer2 = destroyer_scene.Instantiate<Destroyer>();
+        AddChild(destroyer2);
+
+        destroyer1.DestroyElement += OnDestroyerDestroyElementAsync;
+        destroyer2.DestroyElement += OnDestroyerDestroyElementAsync;
+
+        Vector2 direction1, direction2;
+
+        if (line is LineHorizontal)
+        {
+            direction1 = Vector2.Left;
+            direction2 = Vector2.Right;
+        }
+        else
+        {
+            direction1 = Vector2.Up;
+            direction2 = Vector2.Down;
+        }
+
+        destroyer1.Launch(line.Position, direction1, BoardSizePixels);
+        destroyer2.Launch(line.Position, direction2, BoardSizePixels);
+
+        await Task.WhenAll(
+            WaitForSignal(destroyer1, Destroyer.SignalName.Done),
+            WaitForSignal(destroyer2, Destroyer.SignalName.Done)
+            );
+
+        destroyer1.DestroyElement -= OnDestroyerDestroyElementAsync;
+        destroyer2.DestroyElement -= OnDestroyerDestroyElementAsync;
+
+        return 0;
+    }
+
+    private async void OnDestroyerDestroyElementAsync(AGameElement gameElement)
+    {
+        int score = await DestroyElement(gameElement);
+        _game.AddScore(score);
     }
 
     private bool IsElementsAreNeighbors(AGameElement e1, AGameElement e2) 
@@ -614,6 +605,36 @@ public partial class Board : Node2D
 
     private async Task WaitForSignal(GodotObject node, StringName signal)
     {
-        await ToSignal(node, signal);
+        var task = await ToSignal(node, signal);
+    }
+
+    private void AddAnimationTask(Task task)
+    {
+        if (task.IsCompleted)
+        {
+            return;
+        }
+
+        if (_activeAnimations == 0)
+        {
+            EmitSignal(SignalName.AnimationStarted);
+        }
+
+        _activeAnimations++;
+
+        task.ContinueWith(_ =>
+        {
+            CallDeferred(nameof(RemoveAnimationTask));
+        }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
+    private void RemoveAnimationTask()
+    {
+        _activeAnimations--;
+
+        if (_activeAnimations == 0)
+        {
+            EmitSignal(SignalName.AnimationFinished);
+        }
     }
 }
