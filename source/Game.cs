@@ -52,6 +52,8 @@ public partial class Game : Node2D
     {
         State = GameState.GameOver;
 
+        GetNode<Profile>("/root/Profile").Highscore = _score;
+
         _board.ProcessMode = ProcessModeEnum.Disabled;
 
 		_gameOverScreen.Show();
