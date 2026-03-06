@@ -29,11 +29,6 @@ public partial class Bomb : BonusGameElement
         }
     }
 
-    public static Bomb Create(AGameElement parentElement)
-    {
-        return Create(parentElement.Type, parentElement.Color);
-    }
-
     public static Bomb Create(Type type, Color color)
     {
         var bomb = _scene.Instantiate<Bomb>();
