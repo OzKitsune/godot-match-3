@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://mslfp4cpy1yq"]
 
 [ext_resource type="Script" uid="uid://kfd5bu1w6ch1" path="res://source/Game.cs" id="1_ibkli"]
+[ext_resource type="Material" uid="uid://b4j6ndn2g0yf3" path="res://materials/background_material.tres" id="2_3xj3m"]
 [ext_resource type="Script" uid="uid://cib55arv3fvyg" path="res://source/UI/ScoreLabel.cs" id="2_cpr0p"]
 [ext_resource type="Script" uid="uid://de6aautriowqq" path="res://source/UI/TimerLabel.cs" id="2_qbsmt"]
 [ext_resource type="Script" uid="uid://yq0rf1wdqhmn" path="res://source/Board.cs" id="2_s0nni"]
@@ -17,6 +18,18 @@ _board = NodePath("Board")
 _timer = NodePath("Timer")
 _scoreLabel = NodePath("UI/MarginContainer/Control/VBoxContainer/ScoreLabel")
 _gameOverScreen = NodePath("UI/GameOverScreen")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1720131189]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=1003474684]
+material = ExtResource("2_3xj3m")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="Board" type="Node2D" parent="." unique_id=1599399394 node_paths=PackedStringArray("_game")]
 position = Vector2(352, 140)
