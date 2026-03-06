@@ -109,6 +109,14 @@ public partial class Board : Node2D
             return false;
         }
 
+        var bonuses = new Dictionary<Vector2I, BonusInfo>();
+
+        // Искать бонусные элементы, если ход сделал игрок.
+        if (movedElements.Length > 0)
+        {
+            bonuses = SearchBonuses(matches, movedElements);
+        }
+
         foreach (var match in matches)
         {
             int score = 0;
@@ -118,17 +126,23 @@ public partial class Board : Node2D
                 var e = _elements[point.X, point.Y];
                 if (e != null)
                 {
-                    score += await DestroyElement(e);
+                    int scoreForElement = await DestroyElement(e);
+
+                    // Если элемент превратился в бонус, за него не нужно начислять очки.
+                    if (!bonuses.ContainsKey(point))
+                    {
+                        score += scoreForElement;
+                    }
                 }
             }
 
             _game.AddScore(score);
         }
 
-        // Добавить бонусные элементы, если ход сделал игрок.
-        if (movedElements.Length > 0)
+        foreach (var bonusInfo in bonuses.Values) 
         {
-            AddBonuses(matches, movedElements);
+            var bonus = bonusInfo.CreateBonus();
+            AddElement(bonus, bonusInfo.Position.X, bonusInfo.Position.Y);
         }
 
         Fill();
@@ -205,21 +219,19 @@ public partial class Board : Node2D
         return matches;
     }
 
-    private void AddBonuses(List<MatchLine> matches, params AGameElement[] movedElements)
+    private Dictionary<Vector2I, BonusInfo> SearchBonuses(List<MatchLine> matches, params AGameElement[] movedElements)
     {
-        var bonusPositions = new List<Vector2I>();
+        var bonuses = new Dictionary<Vector2I, BonusInfo>();
 
         // Добавление бомб в точках пересечения.
         var intersections = FindIntersections(matches);
 
         foreach (var intersection in intersections)
         {
-            if (!bonusPositions.Contains(intersection.Key))
+            if (!bonuses.ContainsKey(intersection.Key))
             {
-                var bomb = Bomb.Create(intersection.Value.Type, intersection.Value.Color);
-                AddElement(bomb, intersection.Key.X, intersection.Key.Y);
-
-                bonusPositions.Add(intersection.Key);
+                var info = new BonusInfo(intersection.Value.Type, typeof(Bomb), intersection.Value.Color, intersection.Key);
+                bonuses.Add(intersection.Key, info);
             }
         }
 
@@ -233,12 +245,10 @@ public partial class Board : Node2D
                 {
                     if (match.Points.Contains(movedElement.BoardPosition))
                     {
-                        if (!bonusPositions.Contains(movedElement.BoardPosition))
+                        if (!bonuses.ContainsKey(movedElement.BoardPosition))
                         {
-                            var bomb = Bomb.Create(movedElement);
-                            AddElement(bomb, movedElement.BoardPosition.X, movedElement.BoardPosition.Y);
-
-                            bonusPositions.Add(movedElement.BoardPosition);
+                            var info = new BonusInfo(movedElement.Type, typeof(Bomb), movedElement.Color, movedElement.BoardPosition);
+                            bonuses.Add(movedElement.BoardPosition, info);
                         }
                     }
                 }
@@ -250,27 +260,28 @@ public partial class Board : Node2D
                 {
                     if (match.Points.Contains(movedElement.BoardPosition))
                     {
-                        if (!bonusPositions.Contains(movedElement.BoardPosition))
+                        if (!bonuses.ContainsKey(movedElement.BoardPosition))
                         {
-                            BonusGameElement line;
+                            Type type;
 
                             if (match.Direction == Direction.Horizontal)
                             {
-                                line = LineHorizontal.Create(movedElement);
+                                type = typeof(LineHorizontal);
                             }
                             else
                             {
-                                line = LineVertical.Create(movedElement);
+                                type = typeof(LineVertical);
                             }
 
-                            AddElement(line, movedElement.BoardPosition.X, movedElement.BoardPosition.Y);
-
-                            bonusPositions.Add(movedElement.BoardPosition);
+                            var info = new BonusInfo(movedElement.Type, type, movedElement.Color, movedElement.BoardPosition);
+                            bonuses.Add(movedElement.BoardPosition, info);
                         }
                     }
                 }
             }
         }
+
+        return bonuses;
     }
 
     private Dictionary<Vector2I, MatchLine> FindIntersections(List<MatchLine> matches) 
