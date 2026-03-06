@@ -74,8 +74,8 @@ public partial class Board : Node2D
 
         var borderColor = new Color(0, 0, 0, 0.5f);
 
-        DrawRect(new Rect2(new Vector2(startPoint, startPoint), BoardSizePixels), color, true, 4, false);
-        DrawRect(new Rect2(new Vector2(startPoint, startPoint), BoardSizePixels), borderColor, false, 4, false);
+        DrawRect(new Rect2(new Vector2(startPoint, startPoint), BoardSizePixels), color, true, 4);
+        DrawRect(new Rect2(new Vector2(startPoint, startPoint), BoardSizePixels), borderColor, false, 4);
     }
 
     /// <summary>
