@@ -1,10 +1,20 @@
 [gd_scene format=3 uid="uid://dwmh4oc83h18c"]
 
 [ext_resource type="Script" uid="uid://civoegy54j7na" path="res://source/UI/HighscoreLabel.cs" id="1_0ykhv"]
+[ext_resource type="Material" uid="uid://b4j6ndn2g0yf3" path="res://materials/background_material.tres" id="1_2wh52"]
 [ext_resource type="Script" uid="uid://05hxtexj1n6k" path="res://source/UI/OpenSceneButton.cs" id="1_yqorp"]
 
 [node name="MainMenu" type="Control" unique_id=1155901848]
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=532219682]
+material = ExtResource("1_2wh52")
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
