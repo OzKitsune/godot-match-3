@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dwmh4oc83h18c"]
 
+[ext_resource type="Script" uid="uid://civoegy54j7na" path="res://source/UI/HighscoreLabel.cs" id="1_0ykhv"]
 [ext_resource type="Script" uid="uid://05hxtexj1n6k" path="res://source/UI/OpenSceneButton.cs" id="1_yqorp"]
 
 [node name="MainMenu" type="Control" unique_id=1155901848]
@@ -9,6 +10,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="HighscoreLabel" type="Label" parent="." unique_id=125141852]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 16.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "[Лучший результат]"
+horizontal_alignment = 1
+script = ExtResource("1_0ykhv")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1851418898]
 layout_mode = 1
