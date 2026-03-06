@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cd6i6dgsnruul"]
+
+[ext_resource type="Texture2D" uid="uid://b5aq1chsx1lxe" path="res://graphics/GameElements/line_horizontal.svg" id="1_icfj4"]
+[ext_resource type="Script" uid="uid://bvyafq2ch1tun" path="res://source/GameElements/LineHorizontal.cs" id="2_ugb4t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gfvdh"]
+size = Vector2(48, 48)
+
+[node name="LineHorizontal" type="Sprite2D" unique_id=1776920268 node_paths=PackedStringArray("_area")]
+texture = ExtResource("1_icfj4")
+script = ExtResource("2_ugb4t")
+_area = NodePath("Area2D")
+Color = Color(1, 1, 1, 1)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2113062535]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1987280233]
+shape = SubResource("RectangleShape2D_gfvdh")
