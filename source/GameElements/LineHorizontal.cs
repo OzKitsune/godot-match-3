@@ -6,11 +6,11 @@ public partial class LineHorizontal : BonusGameElement
 {
     private static readonly PackedScene _scene = GD.Load<PackedScene>("res://scenes/GameElements/LineHorizontal.tscn");
 
-    public static LineHorizontal Create(AGameElement parentElement)
+    public static LineHorizontal Create(Type type, Color color)
     {
         var line = _scene.Instantiate<LineHorizontal>();
-        line.Type = parentElement.Type;
-        line.Color = parentElement.Color;
+        line.Type = type;
+        line.Color = color;
         return line;
     }
 }
