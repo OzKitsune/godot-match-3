@@ -594,7 +594,18 @@ public partial class Board : Node2D
         return 0;
     }
 
-    private async void OnDestroyerDestroyElementAsync(AGameElement gameElement)
+    private void OnDestroyerDestroyElementAsync(AGameElement gameElement)
+    {
+        CallDeferred(nameof(DeferredDestroy), gameElement);
+    }
+
+    /// <summary>
+    /// Отложенное уничтожение объекта для разрушителя.
+    /// Если попытаться удалить узел с Area2D во время обработки физических событий 
+    /// (во время обработки сигнала AreaEntered), физический движок Godot заблокирует такие изменения.
+    /// </summary>
+    /// <param name="gameElement"></param>
+    private async void DeferredDestroy(AGameElement gameElement)
     {
         var task = DestroyElement(gameElement);
         AddAnimationTask(task);
