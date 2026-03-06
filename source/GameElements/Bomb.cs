@@ -16,11 +16,11 @@ public partial class Bomb : BonusGameElement
         get 
         {
             return [
+                BoardPosition,
                 BoardPosition + new Vector2I(-1, -1),
                 BoardPosition + new Vector2I(0, -1),
                 BoardPosition + new Vector2I(1, -1),
                 BoardPosition + new Vector2I(-1, 0),
-                BoardPosition + new Vector2I(0, 0),
                 BoardPosition + new Vector2I(1, 0),
                 BoardPosition + new Vector2I(-1, 1),
                 BoardPosition + new Vector2I(0, 1),
