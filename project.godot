@@ -13,7 +13,7 @@ config_version=5
 config/name="godot-match-3"
 run/main_scene="uid://dwmh4oc83h18c"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://cx2yl4o18uit7"
 
 [display]
 
