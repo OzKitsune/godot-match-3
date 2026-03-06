@@ -26,8 +26,8 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.45875"
-     inkscape:cx="400"
-     inkscape:cy="235.47558"
+     inkscape:cx="400.34276"
+     inkscape:cy="236.1611"
      inkscape:window-width="3440"
      inkscape:window-height="1369"
      inkscape:window-x="1912"
@@ -43,10 +43,12 @@
      stroke-linejoin="round" />
   <g
      id="SVGRepo_iconCarrier"
-     transform="matrix(0.96026646,0,0,0.95147832,-46.233834,-45.017294)">
+     transform="matrix(0.96450031,0,0,0.88578699,-46.776299,-36.790943)"
+     style="stroke:#000000;stroke-width:8.03463;stroke-dasharray:none;stroke-opacity:0.5">
     <path
        d="m 100.218,80.292 c -2.205,0 -2.746,-1.292 -1.214,-2.883 L 128,47.313 l 29.24,30.11 c 1.538,1.585 1,2.87 -1.209,2.87 h -19.239 l 0.636,95.811 h 18.596 c 2.21,0 2.746,1.28 1.201,2.854 L 128,208.746 99.018,178.973 c -1.542,-1.584 -1.004,-2.869 1.2,-2.869 h 19.54 V 80.292 Z"
        fill-rule="evenodd"
-       id="path1" />
+       id="path1"
+       style="stroke:#000000;stroke-width:8.03463;stroke-dasharray:none;stroke-opacity:0.5" />
   </g>
 </svg>

@@ -7,7 +7,7 @@
 size = Vector2(40, 40)
 
 [node name="Destroyer" type="Sprite2D" unique_id=1754675109 node_paths=PackedStringArray("_area")]
-modulate = Color(0.16924527, 0.1692453, 0.16924527, 1)
+modulate = Color(0.30001682, 0.23018798, 0.25239146, 1)
 z_index = 1
 texture = ExtResource("1_tt3lp")
 script = ExtResource("2_tt3lp")

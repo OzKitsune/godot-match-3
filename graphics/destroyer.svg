@@ -3,7 +3,7 @@
    viewBox="0 0 48 48"
    version="1.1"
    id="svg1"
-   sodipodi:docname="bullet-bulletpoint.svg"
+   sodipodi:docname="destroyer.svg"
    width="48"
    height="48"
    inkscape:version="1.4 (86a8ad7, 2024-10-11)"
@@ -23,7 +23,7 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="12.15625"
-     inkscape:cx="39.197943"
+     inkscape:cx="39.156812"
      inkscape:cy="31.712082"
      inkscape:window-width="3440"
      inkscape:window-height="1369"
@@ -35,5 +35,5 @@
      d="m 24.380472,1.7053708 c 7.003365,0 16.210586,6.660543 17.067641,39.0327392 0.07346,2.767063 -2.154881,5.044381 -4.897458,5.044381 H 12.21029 c -2.7670641,0 -4.9709202,-2.301805 -4.8974583,-5.044381 C 8.1698868,8.3659138 17.401595,1.7053708 24.380472,1.7053708 Z"
      fill="#dfdfdf"
      id="path1"
-     style="stroke-width:2.44873" />
+     style="stroke-width:2.4;stroke:#000000;stroke-opacity:0.5;stroke-dasharray:none" />
 </svg>
