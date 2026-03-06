@@ -6,11 +6,11 @@ public partial class LineVertical : BonusGameElement
 {
     private static readonly PackedScene _scene = GD.Load<PackedScene>("res://scenes/GameElements/LineVertical.tscn");
 
-    public static LineVertical Create(AGameElement parentElement)
+    public static LineVertical Create(Type type, Color color)
     {
         var line = _scene.Instantiate<LineVertical>();
-        line.Type = parentElement.Type;
-        line.Color = parentElement.Color;
+        line.Type = type;
+        line.Color = color;
         return line;
     }
 }
