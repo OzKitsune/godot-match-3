@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="godot-match-3"
-config/version="1.0.0"
+config/version="1.0.1"
 run/main_scene="uid://dwmh4oc83h18c"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="uid://cx2yl4o18uit7"
