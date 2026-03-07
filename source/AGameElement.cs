@@ -27,6 +27,7 @@ public abstract partial class AGameElement : Sprite2D
     private Color _hoverColor = new Color(0.75f, 0.75f, 0.75f);
 
     private Tween _scaleTweenLoop;
+    private Tween _rotationTweenLoop;
 
     /// <summary>
     /// Позиция на игровом поле.
@@ -52,6 +53,13 @@ public abstract partial class AGameElement : Sprite2D
         _scaleTweenLoop.TweenProperty(this, "scale", new Vector2(1.2f, 1.2f), 0.5).SetTrans(Tween.TransitionType.Bounce);
         _scaleTweenLoop.TweenProperty(this, "scale", Vector2.One, 0.5);
         _scaleTweenLoop.Stop();
+        
+        _rotationTweenLoop = CreateTween().SetLoops();
+        _rotationTweenLoop.TweenProperty(this, "rotation", 0.2, 0.5).SetTrans(Tween.TransitionType.Bounce);
+        _rotationTweenLoop.TweenProperty(this, "rotation", 0, 0.5);
+        _rotationTweenLoop.TweenProperty(this, "rotation", -0.2, 0.5).SetTrans(Tween.TransitionType.Bounce);
+        _rotationTweenLoop.TweenProperty(this, "rotation", 0, 0.5);
+        _rotationTweenLoop.Stop();
     }
 
     private void OnAreaMouseEntered()
@@ -80,14 +88,17 @@ public abstract partial class AGameElement : Sprite2D
     public virtual void Select()
     {
         _scaleTweenLoop.Play();
+        _rotationTweenLoop.Play();
     }
 
     public virtual void Deselect()
     {
         _scaleTweenLoop.Stop();
+        _rotationTweenLoop.Stop();
 
         var tween = CreateTween();
         tween.TweenProperty(this, "scale", Vector2.One, 0.1);
+        tween.TweenProperty(this, "rotation", 0, 0.1);
     }
 
     public virtual async void Destroy()
