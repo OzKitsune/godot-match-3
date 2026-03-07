@@ -24,8 +24,6 @@ public partial class Board : Node2D
 
     [Export] private bool _drawGrid = true;
 
-    [Export] private PackedScene[] _elementScenes;
-
     private AGameElement[,] _elements;
     private AGameElement _selectedElement;
 
