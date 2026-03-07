@@ -4,7 +4,9 @@
 
 1. Клонируйте репозиторий:
    
-   ```git clone https://github.com/OzKitsune/godot-match-3.git```
+   ```
+   git clone https://github.com/OzKitsune/godot-match-3.git
+   ```
 
 2. Откройте проект в Godot Engine 4.6.1 (импортируйте его как существующий проект).
 
