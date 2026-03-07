@@ -11,7 +11,7 @@ public partial class Game : Node2D
     [Export] private ScoreLabel _scoreLabel;
     [Export] private Control _gameOverScreen;
 
-	public GameState State { get; set; } = GameState.Input;
+	public GameState State { get; private set; } = GameState.Input;
 
     private int _score = 0;
 
